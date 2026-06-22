@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Meridian</title>
+</head>
+<body>
+  <main class="clock" role="timer" aria-label="Current local time">
+    <div class="eyebrow">Meridian · Local Time</div>
+
+    <div class="time-display" aria-hidden="true">
+      <span id="hh">00</span><span class="colon">:</span><span id="mm">00</span><span class="colon">:</span><span id="ss">00</span>
+    </div>
+
+    <div class="ms-block" aria-hidden="true">
+      <div class="ms-display"><span id="ms">000</span></div>
+      <div class="ms-label">milliseconds</div>
+    </div>
+
+    <div class="rule" aria-hidden="true">
+      <div class="rule-line"></div>
+      <div class="rule-diamond"></div>
+      <div class="rule-line"></div>
+    </div>
+
+    <div class="date-row" aria-hidden="true">
+      <div class="date-field">
+        <div class="date-value" id="day-name">—</div>
+        <div class="date-key">Day</div>
+      </div>
+      <div class="date-sep"></div>
+      <div class="date-field">
+        <div class="date-value" id="date-str">—</div>
+        <div class="date-key">Date</div>
+      </div>
+      <div class="date-sep"></div>
+      <div class="date-field">
+        <div class="date-value" id="tz">—</div>
+        <div class="date-key">Zone</div>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
