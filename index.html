@@ -155,5 +155,18 @@
       </div>
     </div>
   </main>
+  <script>
+    function pad(n, len) { return String(n).padStart(len || 2, '0'); }
+
+    function tick() {
+      const now = new Date();
+      document.getElementById('hh').textContent = pad(now.getHours());
+      document.getElementById('mm').textContent = pad(now.getMinutes());
+      document.getElementById('ss').textContent = pad(now.getSeconds());
+      setTimeout(tick, 1000 - now.getMilliseconds());
+    }
+
+    tick();
+  </script>
 </body>
 </html>
