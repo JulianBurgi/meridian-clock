@@ -259,6 +259,51 @@
     const tzRaw = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
     document.getElementById('tz').textContent = tzRaw.split('/').pop().replace(/_/g, ' ');
 
+    // ── World clock setup ──────────────────────────────────────
+    const ZONES = [
+      { city: 'New York', tz: 'America/New_York' },
+      { city: 'London',   tz: 'Europe/London'    },
+      { city: 'Dubai',    tz: 'Asia/Dubai'        },
+      { city: 'Tokyo',    tz: 'Asia/Tokyo'        },
+    ];
+
+    // Build cards
+    const worldGrid = document.getElementById('world-grid');
+    ZONES.forEach((z, i) => {
+      const card = document.createElement('div');
+      card.className = 'zone-card';
+      card.innerHTML =
+        '<div class="zone-city">' + z.city + '</div>' +
+        '<div class="zone-time" id="zt-' + i + '">--:--' +
+          '<span class="zone-day-badge" id="zd-' + i + '"></span>' +
+        '</div>' +
+        '<div class="zone-offset" id="zo-' + i + '">—</div>';
+      worldGrid.appendChild(card);
+    });
+
+    // Pre-build Intl formatters — created once, reused every frame
+    const timeFmts = ZONES.map(z => new Intl.DateTimeFormat('en', {
+      timeZone: z.tz, hour: '2-digit', minute: '2-digit', hour12: false,
+    }));
+    const offsetFmts = ZONES.map(z => new Intl.DateTimeFormat('en', {
+      timeZone: z.tz, timeZoneName: 'shortOffset',
+    }));
+    const dateFmts = ZONES.map(z => new Intl.DateTimeFormat('en-CA', {
+      timeZone: z.tz, year: 'numeric', month: '2-digit', day: '2-digit',
+    }));
+
+    // Offsets are DST-aware but change rarely — set once on load
+    const now0 = new Date();
+    ZONES.forEach((z, i) => {
+      const parts = offsetFmts[i].formatToParts(now0);
+      const tzPart = parts.find(p => p.type === 'timeZoneName');
+      if (tzPart) document.getElementById('zo-' + i).textContent =
+        tzPart.value.replace('GMT', 'UTC');
+    });
+
+    const localDateFmt = new Intl.DateTimeFormat('en-CA');
+    // ──────────────────────────────────────────────────────────
+
     let prevSec = -1;
 
     function tick() {
@@ -283,6 +328,22 @@
           document.getElementById('date-str').textContent =
             pad(now.getDate()) + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
         }
+      }
+
+      // World clocks — update every second
+      if (s !== prevSec) {
+        const localDate = localDateFmt.format(now);
+        ZONES.forEach((z, i) => {
+          document.getElementById('zt-' + i).childNodes[0].textContent = timeFmts[i].format(now);
+          const zoneDate = dateFmts[i].format(now);
+          const badge = document.getElementById('zd-' + i);
+          if (zoneDate !== localDate) {
+            const diff = new Date(zoneDate) - new Date(localDate);
+            badge.textContent = diff > 0 ? '+1' : '-1';
+          } else {
+            badge.textContent = '';
+          }
+        });
       }
 
       requestAnimationFrame(tick);
