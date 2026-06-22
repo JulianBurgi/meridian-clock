@@ -158,12 +158,22 @@
   <script>
     function pad(n, len) { return String(n).padStart(len || 2, '0'); }
 
+    const colons = document.querySelectorAll('.colon');
+
     function tick() {
       const now = new Date();
+      const ms  = now.getMilliseconds();
+
       document.getElementById('hh').textContent = pad(now.getHours());
       document.getElementById('mm').textContent = pad(now.getMinutes());
       document.getElementById('ss').textContent = pad(now.getSeconds());
-      setTimeout(tick, 1000 - now.getMilliseconds());
+      document.getElementById('ms').textContent = pad(ms, 3);
+
+      // Colons blink in sync with the actual second boundary
+      const off = ms >= 500;
+      colons.forEach(c => c.style.opacity = off ? '0.14' : '1');
+
+      requestAnimationFrame(tick);
     }
 
     tick();
