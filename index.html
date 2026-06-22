@@ -29,58 +29,28 @@
       display: flex;
       align-items: center;
       justify-content: center;
+      padding: 3rem 1rem;
     }
 
-    .clock { text-align: center; padding: 2rem; width: 100%; }
+    .clock { text-align: center; width: 100%; }
 
-    .eyebrow {
+    /* ── shared components ── */
+    .section-label {
       font-size: 0.6rem;
       letter-spacing: 0.42em;
       text-transform: uppercase;
       color: var(--secondary);
-      margin-bottom: 2.75rem;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 1.5rem;
     }
-    .eyebrow::before, .eyebrow::after {
+    .section-label::before, .section-label::after {
       content: '';
       width: 36px;
       height: 1px;
       background: var(--rule);
       display: block;
-    }
-
-    .time-display {
-      font-size: clamp(3.5rem, 15vw, 12.5rem);
-      font-weight: 700;
-      letter-spacing: -0.025em;
-      line-height: 1;
-      font-variant-numeric: tabular-nums;
-      white-space: nowrap;
-    }
-
-    .colon { color: var(--accent); display: inline-block; position: relative; top: -0.04em; }
-
-    .ms-block {
-      margin-top: 1.5rem;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.45rem;
-    }
-    .ms-display {
-      font-size: clamp(1.6rem, 4.5vw, 3.25rem);
-      font-variant-numeric: tabular-nums;
-      letter-spacing: 0.12em;
-      color: var(--accent);
-    }
-    .ms-label {
-      font-size: 0.5rem;
-      letter-spacing: 0.38em;
-      text-transform: uppercase;
-      color: var(--accent-muted);
     }
 
     .rule {
@@ -100,8 +70,57 @@
       margin: 0 0.9rem;
     }
 
-    .date-row { display: flex; align-items: center; justify-content: center; }
-    .date-field { text-align: center; padding: 0 clamp(1rem, 3vw, 2.25rem); }
+    /* ── main time ── */
+    .section-label.main { margin-bottom: 2.75rem; }
+
+    .time-display {
+      font-size: clamp(3.5rem, 15vw, 12.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .colon {
+      color: var(--accent);
+      display: inline-block;
+      position: relative;
+      top: -0.04em;
+      transition: opacity 0.07s linear;
+    }
+
+    .ms-block {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .ms-display {
+      font-size: clamp(1.6rem, 4.5vw, 3.25rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+      line-height: 1;
+    }
+    .ms-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-muted);
+    }
+
+    /* ── date row ── */
+    .date-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .date-field {
+      text-align: center;
+      padding: 0 clamp(1rem, 3vw, 2.25rem);
+    }
     .date-value {
       font-size: clamp(0.7rem, 1.8vw, 0.95rem);
       letter-spacing: 0.14em;
@@ -118,35 +137,10 @@
     }
     .date-sep { width: 1px; height: 30px; background: var(--rule); flex-shrink: 0; }
 
-    @media (prefers-reduced-motion: reduce) {
-      /* colons stay visible, ms counter still updates — just no rapid opacity flicker */
-      .colon { opacity: 1 !important; }
-    }
-
     /* ── world clock panel ── */
-    .world-section {
-      margin-top: 2.75rem;
-      text-align: center;
-    }
+    .world-section { margin-top: 0; }
 
-    .world-eyebrow {
-      font-size: 0.6rem;
-      letter-spacing: 0.42em;
-      text-transform: uppercase;
-      color: var(--secondary);
-      margin-bottom: 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.5rem;
-    }
-    .world-eyebrow::before, .world-eyebrow::after {
-      content: '';
-      width: 36px;
-      height: 1px;
-      background: var(--rule);
-      display: block;
-    }
+    .section-label.world { margin-bottom: 2rem; }
 
     .world-grid {
       display: grid;
@@ -159,9 +153,7 @@
       text-align: center;
       padding: 0 0.75rem 0.25rem;
     }
-    .zone-card + .zone-card {
-      border-left: 1px solid var(--rule);
-    }
+    .zone-card + .zone-card { border-left: 1px solid var(--rule); }
 
     .zone-city {
       font-size: 0.5rem;
@@ -172,21 +164,22 @@
       white-space: nowrap;
     }
 
+    .zone-time-wrap {
+      position: relative;
+      display: inline-block;
+      line-height: 1;
+    }
     .zone-time {
       font-size: clamp(1.25rem, 3vw, 2rem);
       font-weight: 700;
       font-variant-numeric: tabular-nums;
       letter-spacing: -0.02em;
-      line-height: 1;
       color: var(--text);
-      position: relative;
-      display: inline-block;
     }
-
     .zone-day-badge {
       position: absolute;
-      top: -0.4em;
-      right: -1.4em;
+      top: -0.45em;
+      right: -1.5em;
       font-size: 0.42rem;
       letter-spacing: 0.05em;
       color: var(--accent);
@@ -202,14 +195,19 @@
     }
 
     @media (max-width: 420px) {
-      .world-grid { grid-template-columns: repeat(2, 1fr); row-gap: 1.5rem; }
-      .zone-card:nth-child(2n+1) { border-left: none; }
+      .world-grid { grid-template-columns: repeat(2, 1fr); row-gap: 1.75rem; }
+      .zone-card:nth-child(odd) { border-left: none; }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .colon { transition: none; opacity: 1 !important; }
     }
   </style>
 </head>
 <body>
   <main class="clock" role="timer" aria-label="Current local time">
-    <div class="eyebrow">Meridian · Local Time</div>
+
+    <div class="section-label main" aria-hidden="true">Meridian &nbsp;·&nbsp; Local Time</div>
 
     <div class="time-display" aria-hidden="true">
       <span id="hh">00</span><span class="colon">:</span><span id="mm">00</span><span class="colon">:</span><span id="ss">00</span>
@@ -224,11 +222,6 @@
       <div class="rule-line"></div>
       <div class="rule-diamond"></div>
       <div class="rule-line"></div>
-    </div>
-
-    <div class="world-section" aria-label="World clocks">
-      <div class="world-eyebrow">World</div>
-      <div class="world-grid" id="world-grid"></div>
     </div>
 
     <div class="date-row" aria-hidden="true">
@@ -247,6 +240,18 @@
         <div class="date-key">Zone</div>
       </div>
     </div>
+
+    <div class="rule" aria-hidden="true">
+      <div class="rule-line"></div>
+      <div class="rule-diamond"></div>
+      <div class="rule-line"></div>
+    </div>
+
+    <div class="world-section" aria-label="World clocks">
+      <div class="section-label world" aria-hidden="true">World</div>
+      <div class="world-grid" id="world-grid"></div>
+    </div>
+
   </main>
   <script>
     function pad(n, len) { return String(n).padStart(len || 2, '0'); }
@@ -255,11 +260,11 @@
     const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     const colons = document.querySelectorAll('.colon');
 
-    // Timezone — resolved once, doesn't change
+    // Local timezone label — set once
     const tzRaw = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
     document.getElementById('tz').textContent = tzRaw.split('/').pop().replace(/_/g, ' ');
 
-    // ── World clock setup ──────────────────────────────────────
+    // ── World clocks ───────────────────────────────────────────
     const ZONES = [
       { city: 'New York', tz: 'America/New_York' },
       { city: 'London',   tz: 'Europe/London'    },
@@ -267,41 +272,39 @@
       { city: 'Tokyo',    tz: 'Asia/Tokyo'        },
     ];
 
-    // Build cards
     const worldGrid = document.getElementById('world-grid');
     ZONES.forEach((z, i) => {
       const card = document.createElement('div');
       card.className = 'zone-card';
       card.innerHTML =
         '<div class="zone-city">' + z.city + '</div>' +
-        '<div class="zone-time" id="zt-' + i + '">--:--' +
+        '<div class="zone-time-wrap">' +
+          '<span class="zone-time" id="zt-' + i + '">--:--</span>' +
           '<span class="zone-day-badge" id="zd-' + i + '"></span>' +
         '</div>' +
         '<div class="zone-offset" id="zo-' + i + '">—</div>';
       worldGrid.appendChild(card);
     });
 
-    // Pre-build Intl formatters — created once, reused every frame
+    // Formatters — built once, reused every tick
     const timeFmts = ZONES.map(z => new Intl.DateTimeFormat('en', {
       timeZone: z.tz, hour: '2-digit', minute: '2-digit', hour12: false,
-    }));
-    const offsetFmts = ZONES.map(z => new Intl.DateTimeFormat('en', {
-      timeZone: z.tz, timeZoneName: 'shortOffset',
     }));
     const dateFmts = ZONES.map(z => new Intl.DateTimeFormat('en-CA', {
       timeZone: z.tz, year: 'numeric', month: '2-digit', day: '2-digit',
     }));
-
-    // Offsets are DST-aware but change rarely — set once on load
-    const now0 = new Date();
-    ZONES.forEach((z, i) => {
-      const parts = offsetFmts[i].formatToParts(now0);
-      const tzPart = parts.find(p => p.type === 'timeZoneName');
-      if (tzPart) document.getElementById('zo-' + i).textContent =
-        tzPart.value.replace('GMT', 'UTC');
-    });
-
+    const offsetFmts = ZONES.map(z => new Intl.DateTimeFormat('en', {
+      timeZone: z.tz, timeZoneName: 'shortOffset',
+    }));
     const localDateFmt = new Intl.DateTimeFormat('en-CA');
+
+    // UTC offsets — set once on load (DST changes twice a year, negligible)
+    ZONES.forEach((z, i) => {
+      const parts = offsetFmts[i].formatToParts(new Date());
+      const part  = parts.find(p => p.type === 'timeZoneName');
+      if (part) document.getElementById('zo-' + i).textContent =
+        part.value.replace('GMT', 'UTC');
+    });
     // ──────────────────────────────────────────────────────────
 
     let prevSec = -1;
@@ -309,37 +312,37 @@
     function tick() {
       const now = new Date();
       const ms  = now.getMilliseconds();
+      const s   = now.getSeconds();
 
+      // Main display — every frame
       document.getElementById('hh').textContent = pad(now.getHours());
       document.getElementById('mm').textContent = pad(now.getMinutes());
-      document.getElementById('ss').textContent = pad(now.getSeconds());
+      document.getElementById('ss').textContent = pad(s);
       document.getElementById('ms').textContent = pad(ms, 3);
 
-      // Colons blink in sync with the actual second boundary
+      // Colons blink in sync with second boundary
       const off = ms >= 500;
       colons.forEach(c => c.style.opacity = off ? '0.14' : '1');
 
-      // Update date once per second, only when it changes
-      const s = now.getSeconds();
+      // Per-second updates
       if (s !== prevSec) {
         prevSec = s;
+
+        // Local date — only changes at midnight
         if (s === 0 || document.getElementById('day-name').textContent === '—') {
           document.getElementById('day-name').textContent = DAYS[now.getDay()];
           document.getElementById('date-str').textContent =
             pad(now.getDate()) + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
         }
-      }
 
-      // World clocks — update every second
-      if (s !== prevSec) {
+        // World clocks
         const localDate = localDateFmt.format(now);
         ZONES.forEach((z, i) => {
-          document.getElementById('zt-' + i).childNodes[0].textContent = timeFmts[i].format(now);
+          document.getElementById('zt-' + i).textContent = timeFmts[i].format(now);
           const zoneDate = dateFmts[i].format(now);
-          const badge = document.getElementById('zd-' + i);
+          const badge    = document.getElementById('zd-' + i);
           if (zoneDate !== localDate) {
-            const diff = new Date(zoneDate) - new Date(localDate);
-            badge.textContent = diff > 0 ? '+1' : '-1';
+            badge.textContent = new Date(zoneDate) > new Date(localDate) ? '+1' : '-1';
           } else {
             badge.textContent = '';
           }
