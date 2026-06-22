@@ -122,6 +122,89 @@
       /* colons stay visible, ms counter still updates — just no rapid opacity flicker */
       .colon { opacity: 1 !important; }
     }
+
+    /* ── world clock panel ── */
+    .world-section {
+      margin-top: 2.75rem;
+      text-align: center;
+    }
+
+    .world-eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 2rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .world-eyebrow::before, .world-eyebrow::after {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--rule);
+      display: block;
+    }
+
+    .world-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      width: min(640px, 92vw);
+      margin: 0 auto;
+    }
+
+    .zone-card {
+      text-align: center;
+      padding: 0 0.75rem 0.25rem;
+    }
+    .zone-card + .zone-card {
+      border-left: 1px solid var(--rule);
+    }
+
+    .zone-city {
+      font-size: 0.5rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 0.6rem;
+      white-space: nowrap;
+    }
+
+    .zone-time {
+      font-size: clamp(1.25rem, 3vw, 2rem);
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      letter-spacing: -0.02em;
+      line-height: 1;
+      color: var(--text);
+      position: relative;
+      display: inline-block;
+    }
+
+    .zone-day-badge {
+      position: absolute;
+      top: -0.4em;
+      right: -1.4em;
+      font-size: 0.42rem;
+      letter-spacing: 0.05em;
+      color: var(--accent);
+      font-weight: 400;
+    }
+
+    .zone-offset {
+      font-size: 0.46rem;
+      letter-spacing: 0.28em;
+      text-transform: uppercase;
+      color: var(--accent-muted);
+      margin-top: 0.5rem;
+    }
+
+    @media (max-width: 420px) {
+      .world-grid { grid-template-columns: repeat(2, 1fr); row-gap: 1.5rem; }
+      .zone-card:nth-child(2n+1) { border-left: none; }
+    }
   </style>
 </head>
 <body>
@@ -141,6 +224,11 @@
       <div class="rule-line"></div>
       <div class="rule-diamond"></div>
       <div class="rule-line"></div>
+    </div>
+
+    <div class="world-section" aria-label="World clocks">
+      <div class="world-eyebrow">World</div>
+      <div class="world-grid" id="world-grid"></div>
     </div>
 
     <div class="date-row" aria-hidden="true">
