@@ -158,7 +158,15 @@
   <script>
     function pad(n, len) { return String(n).padStart(len || 2, '0'); }
 
+    const DAYS   = ['SUN','MON','TUE','WED','THU','FRI','SAT'];
+    const MONTHS = ['JAN','FEB','MAR','APR','MAY','JUN','JUL','AUG','SEP','OCT','NOV','DEC'];
     const colons = document.querySelectorAll('.colon');
+
+    // Timezone — resolved once, doesn't change
+    const tzRaw = Intl.DateTimeFormat().resolvedOptions().timeZone || 'Local';
+    document.getElementById('tz').textContent = tzRaw.split('/').pop().replace(/_/g, ' ');
+
+    let prevSec = -1;
 
     function tick() {
       const now = new Date();
@@ -172,6 +180,17 @@
       // Colons blink in sync with the actual second boundary
       const off = ms >= 500;
       colons.forEach(c => c.style.opacity = off ? '0.14' : '1');
+
+      // Update date once per second, only when it changes
+      const s = now.getSeconds();
+      if (s !== prevSec) {
+        prevSec = s;
+        if (s === 0 || document.getElementById('day-name').textContent === '—') {
+          document.getElementById('day-name').textContent = DAYS[now.getDay()];
+          document.getElementById('date-str').textContent =
+            pad(now.getDate()) + ' ' + MONTHS[now.getMonth()] + ' ' + now.getFullYear();
+        }
+      }
 
       requestAnimationFrame(tick);
     }
