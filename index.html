@@ -4,6 +4,120 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Meridian</title>
+  <style>
+    :root {
+      --ground:       #F4F6FA;
+      --text:         #0E1923;
+      --accent:       #1A5FA8;
+      --accent-muted: #8AAACE;
+      --grid-line:    rgba(26, 95, 168, 0.07);
+      --secondary:    #5A6880;
+      --rule:         #C8D0DC;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--ground);
+      background-image:
+        linear-gradient(var(--grid-line) 1px, transparent 1px),
+        linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+      background-size: 60px 60px;
+      color: var(--text);
+      font-family: 'Courier New', Courier, monospace;
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .clock { text-align: center; padding: 2rem; width: 100%; }
+
+    .eyebrow {
+      font-size: 0.6rem;
+      letter-spacing: 0.42em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-bottom: 2.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 1.5rem;
+    }
+    .eyebrow::before, .eyebrow::after {
+      content: '';
+      width: 36px;
+      height: 1px;
+      background: var(--rule);
+      display: block;
+    }
+
+    .time-display {
+      font-size: clamp(3.5rem, 15vw, 12.5rem);
+      font-weight: 700;
+      letter-spacing: -0.025em;
+      line-height: 1;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+
+    .colon { color: var(--accent); display: inline-block; position: relative; top: -0.04em; }
+
+    .ms-block {
+      margin-top: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 0.45rem;
+    }
+    .ms-display {
+      font-size: clamp(1.6rem, 4.5vw, 3.25rem);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0.12em;
+      color: var(--accent);
+    }
+    .ms-label {
+      font-size: 0.5rem;
+      letter-spacing: 0.38em;
+      text-transform: uppercase;
+      color: var(--accent-muted);
+    }
+
+    .rule {
+      display: flex;
+      align-items: center;
+      width: min(500px, 82vw);
+      margin: 2.75rem auto;
+    }
+    .rule-line { flex: 1; height: 1px; background: var(--rule); }
+    .rule-diamond {
+      width: 7px;
+      height: 7px;
+      border: 1.5px solid var(--accent-muted);
+      background: var(--ground);
+      transform: rotate(45deg);
+      flex-shrink: 0;
+      margin: 0 0.9rem;
+    }
+
+    .date-row { display: flex; align-items: center; justify-content: center; }
+    .date-field { text-align: center; padding: 0 clamp(1rem, 3vw, 2.25rem); }
+    .date-value {
+      font-size: clamp(0.7rem, 1.8vw, 0.95rem);
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      font-variant-numeric: tabular-nums;
+      white-space: nowrap;
+    }
+    .date-key {
+      font-size: 0.48rem;
+      letter-spacing: 0.34em;
+      text-transform: uppercase;
+      color: var(--secondary);
+      margin-top: 0.45rem;
+    }
+    .date-sep { width: 1px; height: 30px; background: var(--rule); flex-shrink: 0; }
+  </style>
 </head>
 <body>
   <main class="clock" role="timer" aria-label="Current local time">
